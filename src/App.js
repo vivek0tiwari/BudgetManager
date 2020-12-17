@@ -34,7 +34,7 @@ class App extends PureComponent {
       showModal : false,
       selectedRecord: {},
       filterdData: data,
-      budget: 5000
+      budget: 50000
     }
   }
   onEdit = row =>{
@@ -94,8 +94,8 @@ class App extends PureComponent {
   }
   findBillsForBudget = ()=>{
     const {budget, budgetBillIndexs, bills} = this.state;
-    const sortedBills = findMinNumOfBills([...bills], budget)
-    console.log(sortedBills)
+    const sortedBillIds = findMinNumOfBills([...bills], budget)
+    this.setState({sortedBillIds})
   }
   
   render(){
@@ -114,7 +114,7 @@ class App extends PureComponent {
           <DropDown data={filterConfig} onChange={this.onFilter} title='Category'/>
           <button onClick={this.onAdd}>Add</button>
         </div>
-        <Table data={this.state.filterdData} config={config} onEdit={this.onEdit} onDelete={this.onDelete}></Table>
+        <Table data={this.state.filterdData} config={config} onEdit={this.onEdit} onDelete={this.onDelete} highlightedId={this.state.sortedBillIds}></Table>
         <button onClick={this.findBillsForBudget}>Calculate Bills</button>
         <ChartContainer timeRange={series1.timerange()} width={800} format="%b '%y">
             <ChartRow height="200">
